@@ -8,6 +8,8 @@
   const q = new URLSearchParams(location.search);
   TT.tienda = ((q.get('t') || '').match(/^[A-Za-z0-9_-]{1,24}$/) || ['sin-tienda'])[0];
   TT.origen = ((q.get('origen') || '').match(/^[A-Za-z0-9_-]{1,24}$/) || [''])[0];
+  TT.prueba = !!(C().CLAVE_PRUEBA && q.get('prueba') === C().CLAVE_PRUEBA);                 // enlace de pruebas: sin bloqueo y marcado en la planilla
+  if (TT.prueba) TT.origen = 'prueba';
   const dev = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ? 'móvil' : 'escritorio';
 
   /* Visita nueva si pasaron más de 30 minutos desde el último uso; si no, sigue la misma. */

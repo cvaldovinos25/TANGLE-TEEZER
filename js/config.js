@@ -4,12 +4,15 @@
 window.TT = window.TT || {};
 TT.CONFIG = {
   CAMP: 'desenreda',
-  VERSION: '6',
+  VERSION: '7',
   MARCA: 'Tangle Teezer',
   /* URL de la aplicación web de Google Apps Script (ver README). Vacío = no se envían métricas. */
   URL: '',
   /* Mientras sea true se muestra "Modo de prueba" y los descuentos aparecen como ejemplo. Poner false al lanzar. */
   MODO_PRUEBA: true,
+  /* Clave del enlace de PRUEBAS: con ?prueba=CLAVE se puede jugar todas las veces que se quiera (sin bloqueo) y las filas quedan marcadas con origen "prueba" en la planilla.
+     Cambiarla y no compartir ese enlace con el público. */
+  CLAVE_PRUEBA: 'pelo-prueba',
   /* Enlace opcional a la otra campaña ("Tu pelo, tu cepillo"). Vacío = no se muestra el botón. */
   CEPILLO_URL: '',
   /* Vigencia del cupón en días */

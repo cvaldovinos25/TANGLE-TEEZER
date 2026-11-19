@@ -14,7 +14,7 @@
      El estado queda guardado en el celular (localStorage): 'jugando', 'completo' o 'perdio'. Con una partida ya hecha no se puede repetir
      ni mejorar: al volver solo se ve el resultado (y el cupón, si lo ganó). Si cierran o recargan a mitad de la partida, cuenta como abandonada. */
   const LK = 'tt_juego';
-  const juego = () => rj(LK, null), guarda = (o) => S.set(LK, JSON.stringify(o));
+  const juego = () => TT.prueba ? null : rj(LK, null), guarda = (o) => { if (!TT.prueba) S.set(LK, JSON.stringify(o)); };   // en el enlace de pruebas no hay bloqueo
   function genCodigo() { const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = 'TT-'; for (let i = 0; i < 5; i++) s += a[Math.floor(Math.random() * a.length)]; return s; }
   function descuento(prom) {
     const D = C.DESCUENTO, f = Math.max(0, Math.min(1, prom / D.PUNTAJE_MAX));
@@ -87,7 +87,8 @@
   }
   const infoCupon = (c) => (C.MODO_PRUEBA ? 'Cupón de ejemplo (modo de prueba). ' : '') + 'Muéstralo en caja con tu cepillo. Válido hasta el ' + new Date(c.vence).toLocaleDateString('es-CL') + '. Es un solo cupón por persona y no se puede repetir.';
   function pieDePrueba(acts) {                                           // solo en modo de prueba: permite volver a jugar al probar
-    if (C.MODO_PRUEBA) acts.push(['link', 'Reiniciar (solo modo de prueba)', () => { S.set(LK, ''); S.set('tt_guia', ''); location.reload(); }]);
+    if (TT.prueba) acts.push(['btn', 'Jugar otra vez (enlace de pruebas)', () => { TT.track('inicio', {}); guarda({}); nuevaPartida(); }]);
+    else if (C.MODO_PRUEBA) acts.push(['link', 'Reiniciar (solo modo de prueba)', () => { S.set(LK, ''); S.set('tt_guia', ''); location.reload(); }]);
   }
   function finalizar(estado, extra) {
     const g = Object.assign(juego() || {}, { estado, sc: sc.slice() }, extra || {}); guarda(g); return g;
@@ -151,7 +152,7 @@
   /* ---------- Arranque ---------- */
   try { G.init($('#gl')); G.load({ hebras: 12, resistencia: 1, tiempo: 40 }, C, true); }
   catch (e) { $('#btnStart').disabled = true; $('#btnStart').textContent = 'Tu celular no permite el juego 3D'; }
-  $('#tagPrueba').hidden = !C.MODO_PRUEBA;
+  $('#tagPrueba').hidden = !(C.MODO_PRUEBA || TT.prueba); if (TT.prueba) $('#tagPrueba').textContent = 'Enlace de pruebas: sin límite de partidas';
   $('#btnStart').addEventListener('click', iniciar);
   { const g = juego(); if (g) yaJugo(g); }                                                   // una sola partida por dispositivo
   addEventListener('pointerdown', () => TT.sfx.unlock(), { capture: true });                 // los celulares solo dejan sonar tras un toque
