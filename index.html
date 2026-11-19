@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#b7a2e6">
+<title>Desenreda el nudo | Salcobrand</title>
+<link rel="icon" href="img/sb-logo.png">
+<link rel="stylesheet" href="css/app.css?v=3">
+</head>
+<body>
+<video id="cam" playsinline muted autoplay></video>
+<div id="veil"></div>
+<canvas id="gl"></canvas>
+
+<!-- HUD del juego -->
+<div id="hud" hidden>
+  <div class="hud-top glass">
+    <div class="lv"><small><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>Nivel</small><b id="hLv">1</b></div>
+    <div class="bar"><i id="hBar"></i></div>
+    <div class="tm"><small><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 3h6"/></svg>Tiempo</small><b id="hTm">40</b></div>
+  </div>
+  <div class="hud-hint" id="hHint">Peina de arriba hacia abajo</div>
+  <div class="count" id="hCount" hidden></div>
+  <div class="ouch" id="hOuch" hidden>¡Ay! Peina siempre hacia abajo</div>
+</div>
+
+<main id="app">
+  <!-- Bienvenida -->
+  <section class="screen on" id="sWelcome">
+    <div class="card glass-w">
+      <div class="brand"><img src="img/sb-logo.png" alt="Salcobrand"><i></i><span>Tangle Teezer</span></div>
+      <span class="tag" id="tagPrueba" hidden>Modo de prueba</span>
+      <h1>Desenreda<br><em>el nudo</em></h1>
+      <p class="lead">¿Cuánto te demoras en deshacer un nudo? Peina con el dedo, de arriba hacia abajo, y gana <b>de 10% a 40% de descuento</b> en tu cepillo Tangle Teezer, según tu puntaje.</p>
+      <ol class="steps">
+        <li><span class="n">1</span><p>Peina las hebras con el dedo, <b>siempre hacia abajo</b>.</p></li>
+        <li><span class="n">2</span><p>Cubre todo el ancho: cada hebra necesita su pasada.</p></li>
+        <li><span class="n">3</span><p>Más rápido y sin tirones, más puntos y más descuento.</p></li>
+      </ol>
+      <button class="btn" id="btnStart">¡A jugar!</button>
+      <p class="fine">Usaremos tu cámara solo como fondo. No se guarda ninguna imagen.</p>
+    </div>
+  </section>
+
+  <!-- Resultado -->
+  <section class="screen" id="sResult">
+    <div class="card glass-w" id="resCard">
+      <div class="res-head" id="resHead"></div>
+      <div class="score"><small>Puntaje</small><b id="resScore">0</b></div>
+      <div class="coupon" id="resCoupon" hidden>
+        <div class="c-top"><span id="cPrem"></span><b id="cDto"></b></div>
+        <div class="c-code" id="cCode"></div>
+        <p id="cInfo"></p>
+      </div>
+      <div class="rank" id="resRank" hidden><h3>Ranking de hoy en esta tienda</h3><ol id="rankList"></ol></div>
+      <div class="actions" id="resActions"></div>
+    </div>
+  </section>
+</main>
+
+<script src="lib/three.min.js"></script>
+<script src="js/config.js?v=3"></script>
+<script src="js/cam.js?v=3"></script>
+<script src="js/track.js?v=3"></script>
+<script src="js/brush.js?v=3"></script>
+<script src="js/game.js?v=3"></script>
+<script src="js/app.js?v=3"></script>
+</body>
+</html>
