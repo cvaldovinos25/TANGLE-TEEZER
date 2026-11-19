@@ -36,7 +36,7 @@
   function jugarNivel() {
     const n = C.NIVELES[nivel]; G.load(n, C, false); show('sGame');
     $('#hLv').textContent = n.id + '/' + C.NIVELES.length; $('#hTm').textContent = n.tiempo; $('#hBar').style.width = '0%';
-    $('#hHint').textContent = n.nombre + ': peina de arriba hacia abajo'; $('#hHint').classList.add('on');
+    $('#hHint').textContent = n.nombre + ': empieza por las puntas y peina hacia abajo'; $('#hHint').classList.add('on');
     cuenta(3);
   }
   function cuenta(k) {
@@ -56,7 +56,7 @@
     TT.sfx.strand(n); const b = $('.hud-top'); b.classList.remove('hit'); void b.offsetWidth; b.classList.add('hit');
     if (navigator.vibrate) navigator.vibrate(14);
   };
-  G.onOuch = () => { TT.sfx.ouch(); TT.fx.shake(); const o = $('#hOuch'); o.hidden = false; o.classList.remove('pop'); void o.offsetWidth; o.classList.add('pop'); setTimeout(() => { o.hidden = true; }, 1400); if (navigator.vibrate) navigator.vibrate([30, 40, 60]); };
+  G.onOuch = (m) => { TT.sfx.ouch(); TT.fx.shake(); const o = $('#hOuch'); o.textContent = m || 'Peina siempre hacia abajo'; o.hidden = false; o.classList.remove('pop'); void o.offsetWidth; o.classList.add('pop'); setTimeout(() => { o.hidden = true; }, 1400); if (navigator.vibrate) navigator.vibrate([30, 40, 60]); };
   G.onEnd = (r) => {
     jugando = false; segPrev = 99; TT.sfx.swishStop(); TT.sfx.padStop(); if (r.ok) TT.sfx.win(); else TT.sfx.lose(); const n = C.NIVELES[nivel];
     TT.track(r.ok ? 'nivel_ok' : 'nivel_fail', { nivel: n.id, puntaje: r.puntaje, seg: r.seg, tirones: r.tirones, avance: Math.round(r.prog * 100) });
@@ -97,7 +97,7 @@
     show('sResult'); G.stop(); hecho = false; puntos();
     const ult = nivel + 1 >= C.NIVELES.length, acts = [], nota = $('#resNote'), cp = $('#resCoupon'), total = suma(sc);
     cp.hidden = true; nota.hidden = true; $('#resRank').hidden = true;
-    const dtl = r.ok ? esc(n.nombre) + ' · ' + r.seg + ' s · ' + (r.tirones ? r.tirones + ' tirón' + (r.tirones > 1 ? 'es' : '') : 'sin tirones') : '';
+    const dtl = r.ok ? esc(n.nombre) + ' · ' + r.seg + ' s · ' + (r.tirones ? r.tirones + ' falta' + (r.tirones > 1 ? 's' : '') : 'sin faltas') : '';
     if (r.ok && !ult) {                                                   // nivel superado: sigue el siguiente, todavía sin descuento
       finalizar('jugando', { nivel: nivel + 2 });
       $('#resHead').innerHTML = '<span class="ok">¡Nivel ' + n.id + ' superado!</span><small>' + dtl + '</small>';

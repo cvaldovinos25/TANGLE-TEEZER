@@ -10,10 +10,12 @@
   const G = (TT.Game = { state: 'idle', onTick: null, onEnd: null, onOuch: null, onStrand: null, onTouch: null, onStroke: null });
   let renderer, scene, camera, root, brush, canvas, raf = 0, last = 0, clock = 0;
   let acc = 0, prX = 0, prY = 0, strands = [], lvl = null, tLeft = 0, tirones = 0, glow = 0, done = 0, bump = 0, shake = 0;
-  const NP = 48, HIT = 0.4, TRAVEL = 7;            // radio de "agarre" del cepillo y recorrido necesario por unidad de resistencia
+  const NP = 48, HIT = 0.4, TRAVEL = 7;
+  /* Reglas de faltas (cada falta resta puntos y enreda un poco): VMAX = velocidad máxima del dedo (unidades/s), SALTO = distancia máxima entre dos puntos seguidos, SALTO_T = ms entre soltar y volver a tocar lejos */
+  const VMAX = 10, SALTO = 0.9, SALTO_T = 450, ENFRIA = 650, LARGO = 4.4;            // radio de "agarre" del cepillo y recorrido necesario por unidad de resistencia
   const ray = new THREE.Raycaster(), plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0), tmp = new THREE.Vector3();
   const rnd = (a, b) => a + Math.random() * (b - a), ease = (u) => u * u * (3 - 2 * u), RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let down = false, gDown = 0, gUp = 0, prev = null, ptr = null, tPrev = 0, lastMove = 0;
+  let down = false, gDown = 0, gUp = 0, prev = null, ptr = null, tPrev = 0, lastMove = 0, spd = 0, sAcc = 0, sT = 0, tFalta = 0, lastUp = null, tUp = 0;
   const target = new THREE.Vector3();
 
   /* ---------- Partículas (chispas) ---------- */
@@ -261,10 +263,19 @@
     ray.setFromCamera({ x: ((e.clientX - r.left) / r.width) * 2 - 1, y: -((e.clientY - r.top) / r.height) * 2 + 1 }, camera);
     return ray.ray.intersectPlane(plane, tmp) ? { x: tmp.x, y: tmp.y - root.position.y } : null;
   }
+  function falta(msg, sev) {                                                                       // suma una falta (con pausa entre faltas para no castigar de a montones)
+    const now = performance.now(); if (G.state !== 'play' || now - tFalta < ENFRIA) return false; tFalta = now; tirones++;
+    strands.forEach((s) => { if (!s.done && s.u > 0) { s.u = Math.max(0, s.u - 0.04 * (sev || 1)); s.dirty = true; } });
+    shake = RM ? 0 : 1; bump = RM ? 0 : 0.6; kick(0.25); if (G.onOuch) G.onOuch(msg); return true;
+  }
   function onDown(e) {
     if (G.state !== 'play' || down) return;                 // un solo dedo a la vez
-    down = true; ptr = e.pointerId; gDown = gUp = 0; prev = world(e); tPrev = performance.now(); brush.visible = true; place(prev, true);
+    down = true; ptr = e.pointerId; gDown = gUp = 0; spd = 0; sAcc = 0; sT = performance.now(); prev = world(e); tPrev = performance.now(); brush.visible = true; place(prev, true);
     if (G.onTouch) G.onTouch(true);
+    if (prev) {
+      if (lastUp && tPrev - tUp < SALTO_T && Math.hypot(prev.x - lastUp.x, prev.y - lastUp.y) > SALTO) falta('Cambiaste de zona muy rápido');
+      else if ((YTOP - prev.y) / LARGO < 0.5 * (1 - G.progress()) - 0.02) falta('Empieza por las puntas');           // la zona permitida para empezar sube a medida que avanzas
+    }
   }
   function place(p, snap) { if (!p) return; target.set(p.x, p.y + root.position.y, 0.5); if (snap) brush.position.copy(target); }
   function onMove(e) {
@@ -274,7 +285,10 @@
       const dx = p.x - prev.x, dy = p.y - prev.y, now = performance.now(), dist = Math.hypot(dx, dy);
       brush.rotation.z = Math.max(-0.5, Math.min(0.5, -dx * 1.5));
       if (dist > 0.004) {
-        comb(prev, p, dx, dy);
+        sAcc += dist; let rapido = spd > VMAX;                                                  // velocidad medida en ventanas de 50 ms (no depende de la frecuencia de eventos del celular)
+        if (now - sT >= 50) { spd = sAcc / Math.max(0.05, (now - sT) / 1000); sAcc = 0; sT = now; rapido = spd > VMAX; if (rapido) falta('Muy rápido, peina con calma'); }
+        if (dist > SALTO) { falta('Cambiaste de zona muy rápido'); rapido = true; }
+        if (!rapido) comb(prev, p, dx, dy);                                                      // un pasón no deshace nada
         if (G.onStroke) G.onStroke(dist / Math.max(0.008, (now - tPrev) / 1000), dy <= 0);
         if (Math.random() < 0.55) G.burst(p.x + rnd(-0.08, 0.08), p.y + root.position.y + rnd(-0.1, 0.05), 0.55, 1, 0.5);   // estela de chispas
         tPrev = now; lastMove = now;
@@ -285,7 +299,8 @@
   function onUp(e) {
     if (!down || (e && e.pointerId !== undefined && e.pointerId !== ptr)) return; down = false; ptr = null; brush.visible = false;
     if (G.onTouch) G.onTouch(false);
-    if (G.state === 'play' && gUp > 0.7 && gUp > gDown * 0.6) { tirones++; shake = RM ? 0 : 1; bump = RM ? 0 : 0.6; kick(0.25); if (G.onOuch) G.onOuch(); }
+    lastUp = prev; tUp = performance.now();
+    if (G.state === 'play' && gUp > 0.7 && gUp > gDown * 0.6) falta('Peina siempre hacia abajo');
   }
   function distSeg(a, b, p) {
     const vx = b.x - a.x, vy = b.y - a.y, l2 = vx * vx + vy * vy || 1e-9;
@@ -337,10 +352,10 @@
     renderer.render(scene, camera);
   }
   function finish(ok) {
-    const prog = G.progress(), frac = Math.max(0, tLeft) / lvl.tiempo, limp = Math.max(0, 1 - tirones / 8);
+    const prog = G.progress(), frac = Math.max(0, tLeft) / lvl.tiempo, limp = Math.max(0, 1 - tirones / 5);
     G.state = 'end'; brush.visible = false; down = false; ptr = null; if (G.onTouch) G.onTouch(false);
     if (ok) G.comb();
-    const res = { ok, prog, tirones, seg: Math.round(lvl.tiempo - Math.max(0, tLeft)), puntaje: ok ? Math.round(700 * frac + 300 * limp) : Math.round(prog * 300) };
+    const res = { ok, prog, tirones, seg: Math.round(lvl.tiempo - Math.max(0, tLeft)), puntaje: ok ? Math.round(600 * frac + 400 * limp) : Math.round(prog * 300) };
     if (G.onEnd) G.onEnd(res);
   }
 })();
