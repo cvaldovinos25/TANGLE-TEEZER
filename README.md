@@ -1,6 +1,6 @@
 # Desenreda el nudo (Tangle Teezer en Salcobrand)
 
-Juego de realidad aumentada para celulares, sin app. La persona escanea el QR de la góndola, la cámara queda de fondo y un **nudo de pelo en 3D** flota sobre la pantalla. Lo **peina con el dedo, de arriba hacia abajo**, contra el reloj. Si sube el dedo da un tirón y pierde puntos. Todo el que juega gana un **cupón de descuento de 10% a 40%** según su puntaje, y ve el **ranking del día de su tienda**.
+Actividad para lanzamiento del cepillo Tangle Teezer en Farmacias Salconrand. Desarrollado para celulares, sin instalación de app. Cada participante deberá escanear un código QR para acceder a la página. Esta actividad se basa en la suma de puntos, los cuales le darán un porcentaje de descuento en su compra del producto en locales.
 
 ```
 TANGLE-DESENREDA/
@@ -22,14 +22,14 @@ TANGLE-DESENREDA/
 ```
 
 ## Línea gráfica
-Paleta "Metal-verso" tomada de las imágenes de la marca y de Salco Lente: fondo champagne perla, lila y rosa de acento, cobre y dorado para los metálicos, tinta casi negra en los textos. Titulares en Poppins (negrita) con una palabra en Cormorant Garamond cursiva, iconos de línea (sin emojis) y tarjetas de vidrio claro. Las fuentes van incluidas en `fonts/` (no dependen de internet). Los colores están como variables al inicio de `css/app.css` (`--violet`, `--rose`, `--copper`, `--gold`, `--champ`), y los colores de los cepillos 3D en `js/config.js`.
+Paleta "Metal-verso" tomada de las imágenes de la marca y de Salcobrand. Titulares en Poppins (negrita) con una palabra en Cormorant Garamond cursiva, iconos de línea (sin emojis) y tarjetas de vidrio claro. Las fuentes van incluidas en `fonts/`. Los colores están como variables al inicio de `css/app.css` (`--violet`, `--rose`, `--copper`, `--gold`, `--champ`), y los colores de los cepillos 3D en `js/config.js`.
 
 ## Cómo se juega
-1. Bienvenida con tres reglas y **¡A jugar!** (pide la cámara; si la niegan, juegan sobre un fondo de color).
-2. Cuenta regresiva 3, 2, 1.
-3. **Peinar**: cada hebra se endereza con las pasadas hacia abajo. Hay que **cubrir todo el ancho** porque cada hebra solo reacciona cerca del dedo. Subir el dedo en contra del pelo cuenta como **tirón** (resta puntos y las hebras se enredan un poco).
+1. Página de inicio con las tres reglas. (Acceso a cámara; si la niegan, juegan sobre un fondo de color).
+2. Cuenta regresiva para inicio del juego.
+3. **Peinar**: Cada hebra se endereza al "peinar" la pantalla. Subir el dedo en contra del pelo cuenta como **tirón** (resta puntos y las hebras se enredan un poco).
 4. **Puntaje** = 700 por rapidez (tiempo que sobra) + 300 por limpieza (sin tirones). Si se acaba el tiempo, el puntaje es el avance logrado (máximo 300): igual recibe descuento, pero bajo.
-5. **3 niveles** (nudo suave, medio y de domingo), cada uno con más hebras, más resistencia y menos tiempo. Los niveles solo cambian la dificultad.
+5. **3 niveles** (nudo suave, medio y "de domingo"), cada uno con más hebras, más resistencia y menos tiempo. Los niveles solo cambian la dificultad.
 
 ## Descuento y cupón
 - **Todo jugador gana descuento**, gane o pierda: va de **10% a 40%** en saltos de 5%, según el puntaje (con 900 puntos o más se llega al 40%). Fórmula en `js/app.js` (`descuento`), parámetros en `js/config.js` (`DESCUENTO`: `MIN`, `MAX`, `PASO`, `PUNTAJE_MAX`).
@@ -37,7 +37,6 @@ Paleta "Metal-verso" tomada de las imágenes de la marca y de Salco Lente: fondo
 - El color del cupón cambia según el descuento: cobre (10% a 15%), plata (20% a 30%) y dorado (35% a 40%).
 - Se muestra con fecha de vigencia. La planilla tiene una hoja `Cupones` con una columna **"Canjeado"** para marcar a mano al cobrar.
 - **Los porcentajes y la vigencia son de ejemplo.** Definirlos con Salcobrand y la marca. Verificar que el cupón se pueda aplicar en caja, y que se pueda acumular o no con otras promociones.
-- No es un sorteo: no se piden datos personales.
 
 ## Ranking por tienda
 Cada QR lleva el código de la tienda: `.../TANGLE-DESENREDA/?t=SB-LAS-CONDES` (letras, números y guiones, hasta 24). El ranking del día muestra solo puntaje y nivel (anónimo). Si no hay conexión con la planilla, simplemente no se muestra.
