@@ -105,3 +105,9 @@ body.shake #gl,body.shake .hud-top{animation:jolt .45s linear}
 .count.pop{text-shadow:0 0 40px rgba(183,162,230,.9),0 6px 40px rgba(60,35,110,.7)}
 #sWelcome .btn:not(.ghost){animation:breathe 2.4s ease-in-out infinite}
 @keyframes breathe{50%{box-shadow:0 12px 34px rgba(132,104,214,.6),inset 0 1px 0 rgba(255,255,255,.35)}}
+
+.run{display:flex;gap:8px;justify-content:center;margin:10px 0 2px}
+.run i{font-style:normal;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;border:1.5px solid var(--lilac);color:var(--violet-d);background:rgba(255,255,255,.7)}
+.run i.ok{background:var(--metal);color:#fff;border-color:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 3px 8px rgba(179,98,58,.35)}
+.run i.now{border-color:var(--violet);box-shadow:0 0 0 4px rgba(183,162,230,.35)}
+.note{margin:6px 0 4px;text-align:center;font-size:13px;line-height:1.45;color:#3c3346}.note b{font-weight:700}

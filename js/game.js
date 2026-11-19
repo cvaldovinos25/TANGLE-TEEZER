@@ -10,7 +10,7 @@
   const G = (TT.Game = { state: 'idle', onTick: null, onEnd: null, onOuch: null, onStrand: null, onTouch: null, onStroke: null });
   let renderer, scene, camera, root, brush, canvas, raf = 0, last = 0, clock = 0;
   let acc = 0, prX = 0, prY = 0, strands = [], lvl = null, tLeft = 0, tirones = 0, glow = 0, done = 0, bump = 0, shake = 0;
-  const NP = 48, HIT = 0.4, TRAVEL = 4.2;            // radio de "agarre" del cepillo y recorrido necesario por unidad de resistencia
+  const NP = 48, HIT = 0.4, TRAVEL = 7;            // radio de "agarre" del cepillo y recorrido necesario por unidad de resistencia
   const ray = new THREE.Raycaster(), plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0), tmp = new THREE.Vector3();
   const rnd = (a, b) => a + Math.random() * (b - a), ease = (u) => u * u * (3 - 2 * u), RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let down = false, gDown = 0, gUp = 0, prev = null, ptr = null, tPrev = 0, lastMove = 0;

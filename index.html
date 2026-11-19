@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#b7a2e6">
 <title>Desenreda el nudo | Salcobrand</title>
 <link rel="icon" href="img/sb-logo.png">
-<link rel="stylesheet" href="css/app.css?v=5">
+<link rel="stylesheet" href="css/app.css?v=7">
 </head>
 <body>
 <video id="cam" playsinline muted autoplay></video>
@@ -35,11 +35,11 @@
       <div class="brand"><img src="img/sb-logo.png" alt="Salcobrand"><i></i><span>Tangle Teezer</span></div>
       <span class="tag" id="tagPrueba" hidden>Modo de prueba</span>
       <h1>Desenreda<br><em>el nudo</em></h1>
-      <p class="lead">¿Cuánto te demoras en deshacer un nudo? Peina con el dedo, de arriba hacia abajo, y gana <b>de 10% a 40% de descuento</b> en tu cepillo Tangle Teezer, según tu puntaje.</p>
+      <p class="lead">Deshaz <b>3 nudos seguidos</b> peinando con el dedo, de arriba hacia abajo. Al completar los 3 niveles ganas <b>de 10% a 40% de descuento</b> en tu cepillo Tangle Teezer, según tu puntaje. <b>Tienes una sola partida.</b></p>
       <ol class="steps">
         <li><span class="n">1</span><p>Peina las hebras con el dedo, <b>siempre hacia abajo</b>.</p></li>
-        <li><span class="n">2</span><p>Cubre todo el ancho: cada hebra necesita su pasada.</p></li>
-        <li><span class="n">3</span><p>Más rápido y sin tirones, más puntos y más descuento.</p></li>
+        <li><span class="n">2</span><p>Cubre todo el ancho y repasa: los nudos aguantan varias pasadas.</p></li>
+        <li><span class="n">3</span><p>Sin segundas oportunidades: no se puede repetir ni mejorar. Si no completas los 3 niveles, no hay descuento.</p></li>
       </ol>
       <button class="btn" id="btnStart">¡A jugar!</button>
       <p class="fine">Usaremos tu cámara solo como fondo. No se guarda ninguna imagen.</p>
@@ -50,7 +50,9 @@
   <section class="screen" id="sResult">
     <div class="card glass-w" id="resCard">
       <div class="res-head" id="resHead"></div>
-      <div class="score"><small>Puntaje</small><b id="resScore">0</b></div>
+      <div class="run" id="resRun"></div>
+      <div class="score"><small id="resScoreLbl">Puntaje</small><b id="resScore">0</b></div>
+      <p class="note" id="resNote" hidden></p>
       <div class="coupon" id="resCoupon" hidden>
         <div class="c-top"><span id="cPrem"></span><b id="cDto"></b></div>
         <div class="c-code" id="cCode"></div>
@@ -63,13 +65,13 @@
 </main>
 
 <script src="lib/three.min.js"></script>
-<script src="js/config.js?v=5"></script>
-<script src="js/cam.js?v=5"></script>
-<script src="js/track.js?v=5"></script>
-<script src="js/brush.js?v=5"></script>
-<script src="js/sfx.js?v=5"></script>
-<script src="js/fx.js?v=5"></script>
-<script src="js/game.js?v=5"></script>
-<script src="js/app.js?v=5"></script>
+<script src="js/config.js?v=7"></script>
+<script src="js/cam.js?v=7"></script>
+<script src="js/track.js?v=7"></script>
+<script src="js/brush.js?v=7"></script>
+<script src="js/sfx.js?v=7"></script>
+<script src="js/fx.js?v=7"></script>
+<script src="js/game.js?v=7"></script>
+<script src="js/app.js?v=7"></script>
 </body>
 </html>
