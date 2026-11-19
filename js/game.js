@@ -12,7 +12,7 @@
   let acc = 0, prX = 0, prY = 0, strands = [], lvl = null, tLeft = 0, tirones = 0, glow = 0, done = 0, bump = 0, shake = 0;
   const NP = 48, HIT = 0.4, TRAVEL = 7;
   /* Reglas de faltas (cada falta resta puntos y enreda un poco): VMAX = velocidad máxima del dedo (unidades/s), SALTO = distancia máxima entre dos puntos seguidos, SALTO_T = ms entre soltar y volver a tocar lejos */
-  const VMAX = 10, SALTO = 0.9, SALTO_T = 450, ENFRIA = 650, LARGO = 4.4;            // radio de "agarre" del cepillo y recorrido necesario por unidad de resistencia
+  const VMAX = 17, SALTO = 1.5, SALTO_T = 300, ENFRIA = 1300, LARGO = 4.4;            // radio de "agarre" del cepillo y recorrido necesario por unidad de resistencia
   const ray = new THREE.Raycaster(), plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0), tmp = new THREE.Vector3();
   const rnd = (a, b) => a + Math.random() * (b - a), ease = (u) => u * u * (3 - 2 * u), RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let down = false, gDown = 0, gUp = 0, prev = null, ptr = null, tPrev = 0, lastMove = 0, spd = 0, sAcc = 0, sT = 0, tFalta = 0, lastUp = null, tUp = 0;
@@ -265,7 +265,7 @@
   }
   function falta(msg, sev) {                                                                       // suma una falta (con pausa entre faltas para no castigar de a montones)
     const now = performance.now(); if (G.state !== 'play' || now - tFalta < ENFRIA) return false; tFalta = now; tirones++;
-    strands.forEach((s) => { if (!s.done && s.u > 0) { s.u = Math.max(0, s.u - 0.04 * (sev || 1)); s.dirty = true; } });
+    strands.forEach((s) => { if (!s.done && s.u > 0) { s.u = Math.max(0, s.u - 0.02 * (sev || 1)); s.dirty = true; } });
     shake = RM ? 0 : 1; bump = RM ? 0 : 0.6; kick(0.25); if (G.onOuch) G.onOuch(msg); return true;
   }
   function onDown(e) {
@@ -274,7 +274,7 @@
     if (G.onTouch) G.onTouch(true);
     if (prev) {
       if (lastUp && tPrev - tUp < SALTO_T && Math.hypot(prev.x - lastUp.x, prev.y - lastUp.y) > SALTO) falta('Cambiaste de zona muy rápido');
-      else if ((YTOP - prev.y) / LARGO < 0.5 * (1 - G.progress()) - 0.02) falta('Empieza por las puntas');           // la zona permitida para empezar sube a medida que avanzas
+      else if ((YTOP - prev.y) / LARGO < 0.3 * (1 - G.progress()) - 0.02) falta('Empieza por las puntas');           // la zona permitida para empezar sube a medida que avanzas
     }
   }
   function place(p, snap) { if (!p) return; target.set(p.x, p.y + root.position.y, 0.5); if (snap) brush.position.copy(target); }
@@ -300,7 +300,7 @@
     if (!down || (e && e.pointerId !== undefined && e.pointerId !== ptr)) return; down = false; ptr = null; brush.visible = false;
     if (G.onTouch) G.onTouch(false);
     lastUp = prev; tUp = performance.now();
-    if (G.state === 'play' && gUp > 0.7 && gUp > gDown * 0.6) falta('Peina siempre hacia abajo');
+    if (G.state === 'play' && gUp > 1.2 && gUp > gDown * 0.8) falta('Peina siempre hacia abajo');
   }
   function distSeg(a, b, p) {
     const vx = b.x - a.x, vy = b.y - a.y, l2 = vx * vx + vy * vy || 1e-9;
@@ -352,7 +352,7 @@
     renderer.render(scene, camera);
   }
   function finish(ok) {
-    const prog = G.progress(), frac = Math.max(0, tLeft) / lvl.tiempo, limp = Math.max(0, 1 - tirones / 5);
+    const prog = G.progress(), frac = Math.max(0, tLeft) / lvl.tiempo, limp = Math.max(0, 1 - tirones / 8);
     G.state = 'end'; brush.visible = false; down = false; ptr = null; if (G.onTouch) G.onTouch(false);
     if (ok) G.comb();
     const res = { ok, prog, tirones, seg: Math.round(lvl.tiempo - Math.max(0, tLeft)), puntaje: ok ? Math.round(600 * frac + 400 * limp) : Math.round(prog * 300) };

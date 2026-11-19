@@ -36,7 +36,7 @@
   function jugarNivel() {
     const n = C.NIVELES[nivel]; G.load(n, C, false); show('sGame');
     $('#hLv').textContent = n.id + '/' + C.NIVELES.length; $('#hTm').textContent = n.tiempo; $('#hBar').style.width = '0%';
-    $('#hHint').textContent = n.nombre + ': empieza por las puntas y peina hacia abajo'; $('#hHint').classList.add('on');
+    $('#hHint').textContent = n.nombre + ': peina hacia abajo, mejor desde las puntas'; $('#hHint').classList.add('on');
     cuenta(3);
   }
   function cuenta(k) {

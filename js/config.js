@@ -4,7 +4,7 @@
 window.TT = window.TT || {};
 TT.CONFIG = {
   CAMP: 'desenreda',
-  VERSION: '8',
+  VERSION: '9',
   MARCA: 'Tangle Teezer',
   /* URL de la aplicación web de Google Apps Script (ver README). Vacío = no se envían métricas. */
   URL: 'https://script.google.com/macros/s/AKfycbw0MAEl0Z4-9LkuosBGbeuOp8EVhzFB5W8QAAX-GEgg7znDE1kXlTzvdOexUxQiOHyg/exec',
@@ -18,9 +18,9 @@ TT.CONFIG = {
   /* Vigencia del cupón en días */
   VIGENCIA_DIAS: 7,
   /* Descuento: se entrega SOLO al completar los 3 niveles, en UNA sola partida por dispositivo (sin repetir niveles ni mejorar el puntaje). Va de MIN a MAX en saltos de PASO,
-     según el puntaje PROMEDIO de los 3 niveles (cada nivel vale hasta 1000). Con PUNTAJE_MAX o más de promedio se llega al máximo; el 40% exige casi el puntaje perfecto (sin faltas y con mucho tiempo sobrando en los 3 niveles).
+     según el puntaje PROMEDIO de los 3 niveles (cada nivel vale hasta 1000). Con PUNTAJE_MAX o más de promedio se llega al máximo; el 40% exige pocas faltas y buen tiempo en los 3 niveles.
      Los porcentajes son de EJEMPLO: definir con Salcobrand y la marca. */
-  DESCUENTO: { MIN: 10, MAX: 40, PASO: 5, PUNTAJE_MAX: 950 },
+  DESCUENTO: { MIN: 10, MAX: 40, PASO: 5, PUNTAJE_MAX: 800 },
   /* Niveles: cuántas hebras, cuánto "pasadas" necesita cada una (resistencia) y tiempo en segundos.
      Los niveles solo cambian la dificultad; el descuento depende del puntaje total. */
   NIVELES: [
