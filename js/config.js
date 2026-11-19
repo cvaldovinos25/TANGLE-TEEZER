@@ -4,7 +4,7 @@
 window.TT = window.TT || {};
 TT.CONFIG = {
   CAMP: 'desenreda',
-  VERSION: '3',
+  VERSION: '4',
   MARCA: 'Tangle Teezer',
   /* URL de la aplicación web de Google Apps Script (ver README). Vacío = no se envían métricas. */
   URL: '',
@@ -20,10 +20,12 @@ TT.CONFIG = {
   /* Niveles: cuántas hebras, cuánto "pasadas" necesita cada una (resistencia) y tiempo en segundos.
      Los niveles solo cambian la dificultad; el descuento depende del puntaje. */
   NIVELES: [
-    { id: 1, nombre: 'Nudo suave',     hebras: 9,  resistencia: 1.0, tiempo: 40 },
-    { id: 2, nombre: 'Nudo medio',     hebras: 14, resistencia: 1.5, tiempo: 36 },
-    { id: 3, nombre: 'Nudo de domingo', hebras: 20, resistencia: 2.1, tiempo: 32 }
+    { id: 1, nombre: 'Nudo suave',     hebras: 9,  nudos: 3,  resistencia: 1.0, tiempo: 40 },
+    { id: 2, nombre: 'Nudo medio',     hebras: 14, nudos: 4, resistencia: 1.5, tiempo: 36 },
+    { id: 3, nombre: 'Nudo de domingo', hebras: 20, nudos: 5, resistencia: 2.1, tiempo: 32 }
   ],
+  /* Cabellos por mechón (más = más lleno y más pesado). Fijo en 24 (más = más lleno y más pesado; 0 = automático: 40, o 24 en celulares modestos). */
+  HILOS: 24,
   /* Colores de las hebras */
-  PELOS: ['#3b2417', '#5a3820', '#1c1410', '#8a5a2b', '#c99a5b', '#e4c48a', '#7b3f2a']
+  PELOS: ['#2a1810', '#3a2316', '#4a2c1b', '#5a3822', '#6b4328', '#3a2316', '#7a4d2c', '#33200f']
 };
