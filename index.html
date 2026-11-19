@@ -6,12 +6,14 @@
 <meta name="theme-color" content="#b7a2e6">
 <title>Desenreda el nudo | Salcobrand</title>
 <link rel="icon" href="img/sb-logo.png">
-<link rel="stylesheet" href="css/app.css?v=3">
+<link rel="stylesheet" href="css/app.css?v=4">
 </head>
 <body>
 <video id="cam" playsinline muted autoplay></video>
 <div id="veil"></div>
 <canvas id="gl"></canvas>
+<canvas id="fx" aria-hidden="true"></canvas>
+<button id="btnSnd" class="snd" aria-label="Activar o silenciar el sonido" aria-pressed="true"><svg class="ic on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/></svg><svg class="ic off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9l5 6M22 9l-5 6"/></svg></button>
 
 <!-- HUD del juego -->
 <div id="hud" hidden>
@@ -20,6 +22,7 @@
     <div class="bar"><i id="hBar"></i></div>
     <div class="tm"><small><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 3h6"/></svg>Tiempo</small><b id="hTm">40</b></div>
   </div>
+  <div class="guide" id="guide" hidden><i></i><span>Desliza hacia abajo</span></div>
   <div class="hud-hint" id="hHint">Peina de arriba hacia abajo</div>
   <div class="count" id="hCount" hidden></div>
   <div class="ouch" id="hOuch" hidden>¡Ay! Peina siempre hacia abajo</div>
@@ -60,11 +63,13 @@
 </main>
 
 <script src="lib/three.min.js"></script>
-<script src="js/config.js?v=3"></script>
-<script src="js/cam.js?v=3"></script>
-<script src="js/track.js?v=3"></script>
-<script src="js/brush.js?v=3"></script>
-<script src="js/game.js?v=3"></script>
-<script src="js/app.js?v=3"></script>
+<script src="js/config.js?v=4"></script>
+<script src="js/cam.js?v=4"></script>
+<script src="js/track.js?v=4"></script>
+<script src="js/brush.js?v=4"></script>
+<script src="js/sfx.js?v=4"></script>
+<script src="js/fx.js?v=4"></script>
+<script src="js/game.js?v=4"></script>
+<script src="js/app.js?v=4"></script>
 </body>
 </html>

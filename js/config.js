@@ -4,7 +4,7 @@
 window.TT = window.TT || {};
 TT.CONFIG = {
   CAMP: 'desenreda',
-  VERSION: '2',
+  VERSION: '3',
   MARCA: 'Tangle Teezer',
   /* URL de la aplicación web de Google Apps Script (ver README). Vacío = no se envían métricas. */
   URL: '',
